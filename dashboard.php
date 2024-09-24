@@ -131,6 +131,7 @@ if (!isset($_SESSION['username'])) {
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="monitoring.php">Form Pengisian</a>
                 <a class="dropdown-item" href="diagram.php">Lihat Diagram Pie</a>
+                <a class="dropdown-item" href="import.php">Import Excel</a>
             </div>
         </div>
     </div>

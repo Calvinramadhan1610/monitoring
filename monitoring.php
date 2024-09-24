@@ -320,7 +320,7 @@ $result_users = $conn->query($sql_users);
                 <td>" . htmlspecialchars($log['status']) . "</td>
                 <td>
                     <a href='?delete_id=" . intval($log['id']) . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Apakah Anda yakin ingin menghapus data ini?\")'>Hapus</a>
-                    <a href='edit.php?id=" . intval($log['id']) . "' class='btn btn-secondary btn-sm'>Edit</a>
+                    <a href='edit.php?id=" . intval($log['id']) . "' class='btn btn-success btn-sm'>Edit</a>
                 </td>
             </tr>";
             $i++;

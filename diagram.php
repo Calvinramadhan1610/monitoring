@@ -12,6 +12,24 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Proses penghapusan jika ada request POST untuk menghapus log
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['log_id'])) {
+    $log_id = $_POST['log_id'];
+
+    // Query untuk menghapus data berdasarkan ID
+    $query = "DELETE FROM t_log WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $log_id);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Log berhasil dihapus.');</script>";
+    } else {
+        echo "<script>alert('Error: " . $stmt->error . "');</script>";
+    }
+
+    $stmt->close();
+}
+
 // Get data for Pie Chart
 $query = "SELECT status, COUNT(*) AS count FROM t_log GROUP BY status";
 $result = $conn->query($query);
@@ -136,9 +154,10 @@ $logs = $conn->query($queryLogs);
                     <th>Tanggal Complain</th>
                     <th>Target Selesai</th>
                     <th>Uraian</th>
-                    <th>ID Programer</th>
+                    <th>ID Programmer</th>
                     <th>Tanggal Input</th>
                     <th>Status</th>
+                    <th>Aksi</th> <!-- Kolom aksi untuk menghapus -->
                 </tr>
             </thead>
             <tbody>
@@ -151,17 +170,26 @@ $logs = $conn->query($queryLogs);
                             <td><?= $row['user_id'] ?></td>
                             <td><?= $row['tgl_input'] ?></td>
                             <td><?= $row['status'] ?></td>
+                            <td>
+                                <!-- Tombol Hapus -->
+                                <form action="" method="POST" onsubmit="return confirm('Anda yakin ingin menghapus log ini?');">
+                                    <input type="hidden" name="log_id" value="<?= $row['id'] ?>">
+                                    <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                </form>
+                            </td>
                         </tr>
                     <?php endwhile; ?>
                 <?php else: ?>
-                    <tr><td colspan="6" class="text-center">No data found</td></tr>
+                    <tr><td colspan="7" class="text-center">No data found</td></tr>
                 <?php endif; ?>
             </tbody>
         </table>
+
+        <!-- Tombol cetak -->
         <div class="text-center">
-    <a href="export_spreadsheet.php" class="btn btn-success mt-3">Cetak ke Spreadsheet</a>
-    <a href="export_pdf.php" class="btn btn-danger mt-3">Cetak ke PDF</a>
-</div>
+            <a href="export_spreadsheet.php" class="btn btn-success mt-3">Cetak ke Spreadsheet</a>
+            <a href="export_pdf.php" class="btn btn-danger mt-3">Cetak ke PDF</a>
+        </div>
 
         <!-- Tombol kembali -->
         <div class="text-center">
@@ -212,3 +240,4 @@ $logs = $conn->query($queryLogs);
 <?php
 $conn->close();
 ?>
+ 
