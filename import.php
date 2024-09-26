@@ -120,7 +120,7 @@ $conn->close();
 </head>
 <body>
     <div class="container">
-        <h2 class="text-center mb-4"><i class="fas fa-file-import"></i> Import Data Pekerjaan dari Excel</h2>
+        <h2 class="text-center mb-4"><i class="fas fa-file-import"></i> Import Data Excel Rekap Pekerjaan Karyawan</h2>
         
         <!-- Display success message after import -->
         <?php if (isset($message)) echo $message; ?>
